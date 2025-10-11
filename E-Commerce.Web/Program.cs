@@ -3,7 +3,13 @@ using Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Presistence;
 using Presistence.Data.Contexts;
+using Presistence.Repostiries;
+using ServiceAbstraction;
+using ServiceImplemntation;
+using ServiceImplemntation.MappingProfiles;
 using System.Security.Cryptography;
+using AutoMapper;
+using Microsoft.Extensions.DependencyInjection; // Add this at the top with other using directives
 
 namespace E_Commerce.Web
 {
@@ -26,6 +32,9 @@ namespace E_Commerce.Web
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             builder.Services.AddScoped<IDataSeeding, DataSeeding>();
+            builder.Services.AddAutoMapper(config => config.AddProfile(new ProductProfile()), typeof(ServiceImplemntation.AssemblyRefrence));
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IServiceManger, ServiceManger>();
             #endregion
 
             var app = builder.Build();
@@ -34,7 +43,7 @@ namespace E_Commerce.Web
 
             var seed = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
 
-            seed.DataSeed();
+            seed.DataSeedAsync();
 
 
 
@@ -48,6 +57,7 @@ namespace E_Commerce.Web
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles();
 
 
             app.MapControllers(); 
