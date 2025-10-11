@@ -8,54 +8,56 @@ namespace Presistence
 {
     public class DataSeeding(StoreDbContext _dbContext) : IDataSeeding
     {
-        public void DataSeed()
+        public async Task DataSeedAsync()
         {
             try
             {
-                if (_dbContext.Database.GetPendingMigrations().Any())
+                if ((await _dbContext.Database.GetPendingMigrationsAsync()).Any())
                 {
-                    _dbContext.Database.Migrate();
+                    await _dbContext.Database.MigrateAsync();
                 }
 
                 // Empty Database then do seeding
                 if (!_dbContext.ProductBrands.Any())
                 {
-                    var ProductBrandsData = File.ReadAllText("C:\\Users\\merom\\Desktop\\RouteBackEnd\\API\\E-Commerce_Solution\\InfraStructure\\Presistence\\Data\\DataSeeding\\brands.json");
-                    var ProductBrands = JsonSerializer.Deserialize<List<ProductBrand>>(ProductBrandsData);
+                    //var ProductBrandsData =  await File.ReadAllTextAsync("C:\\Users\\merom\\Desktop\\RouteBackEnd\\API\\E-Commerce_Solution\\InfraStructure\\Presistence\\Data\\DataSeeding\\brands.json");
+                    var ProductBrandsData = File.OpenRead("C:\\Users\\merom\\Desktop\\RouteBackEnd\\API\\E-Commerce_Solution\\InfraStructure\\Presistence\\Data\\DataSeeding\\brands.json");
+                    var ProductBrands = await JsonSerializer.DeserializeAsync<List<ProductBrand>>(ProductBrandsData);
 
                     if (ProductBrands is not null && ProductBrands.Any())
                     {
-                        _dbContext.ProductBrands.AddRange(ProductBrands);
+                         await _dbContext.ProductBrands.AddRangeAsync(ProductBrands);
                     }
                 }
 
                 if (!_dbContext.ProductTypes.Any())
                 {
-                    var ProductTypesData = File.ReadAllText("C:\\Users\\merom\\Desktop\\RouteBackEnd\\API\\E-Commerce_Solution\\InfraStructure\\Presistence\\Data\\DataSeeding\\types.json");
-                    var ProductTypes = JsonSerializer.Deserialize<List<ProductType>>(ProductTypesData);
+                    var ProductTypesData = File.OpenRead("C:\\Users\\merom\\Desktop\\RouteBackEnd\\API\\E-Commerce_Solution\\InfraStructure\\Presistence\\Data\\DataSeeding\\types.json");
+                    var ProductTypes =  await JsonSerializer.DeserializeAsync<List<ProductType>>(ProductTypesData);
 
                     if (ProductTypes is not null && ProductTypes.Any())
                     {
-                        _dbContext.ProductTypes.AddRange(ProductTypes);
+                         await _dbContext.ProductTypes.AddRangeAsync(ProductTypes);
                     }
                 }
 
                 if (!_dbContext.Products.Any())
                 {
-                    var ProductsData = File.ReadAllText("C:\\Users\\merom\\Desktop\\RouteBackEnd\\API\\E-Commerce_Solution\\InfraStructure\\Presistence\\Data\\DataSeeding\\products.json");
-                    var Products = JsonSerializer.Deserialize<List<Product>>(ProductsData);
+                    var ProductsData = File.OpenRead("C:\\Users\\merom\\Desktop\\RouteBackEnd\\API\\E-Commerce_Solution\\InfraStructure\\Presistence\\Data\\DataSeeding\\products.json");
+                    var Products =  await JsonSerializer.DeserializeAsync<List<Product>>(ProductsData);
 
                     if (Products is not null && Products.Any())
                     {
-                        _dbContext.Products.AddRange(Products);
+                       await _dbContext.Products.AddRangeAsync(Products);
                     }
                 }
 
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error during data seeding: {ex.Message}");
+                // to do 
+
             }
         }
     }
