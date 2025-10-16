@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Service\Service.csproj" />
+    <ProjectReference Include="..\Presentaion\Presentaion.csproj" />
   </ItemGroup>
 
 </Project>

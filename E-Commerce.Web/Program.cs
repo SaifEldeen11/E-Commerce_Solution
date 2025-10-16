@@ -1,5 +1,6 @@
 // This Code Was Made By Eng Saif :)
 using Domain.Contracts;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Presistence;
 using Presistence.Data.Contexts;
@@ -32,7 +33,7 @@ namespace E_Commerce.Web
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             builder.Services.AddScoped<IDataSeeding, DataSeeding>();
-            builder.Services.AddAutoMapper(config => config.AddProfile(new ProductProfile()), typeof(ServiceImplemntation.AssemblyRefrence));
+            builder.Services.AddAutoMapper(con => con.AddProfile(new ProductProfile()), typeof(ServiceImplemntation.AssemblyRefrence));
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IServiceManger, ServiceManger>();
             #endregion

@@ -15,7 +15,7 @@ namespace Presistence.Repostiries
         public IGenericRepostiry<TEntity, TKey> GetRepostiry<TEntity, TKey>() where TEntity : BaseEntity<TKey>
         {
             var typeName = typeof(TEntity).Name;
-            if (_repostires.ContainsKey("Product"))
+            if (_repostires.ContainsKey(typeName))
             {
                 return (IGenericRepostiry<TEntity, TKey>) _repostires[typeName];
             }
@@ -26,7 +26,7 @@ namespace Presistence.Repostiries
             _repostires[typeName] = repo;
 
             // return object 
-            return repo;
+            return (IGenericRepostiry<TEntity, TKey>)repo;
         }
 
         public async Task<int> SaveChangesAsync()

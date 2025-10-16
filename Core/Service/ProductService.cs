@@ -2,6 +2,8 @@
 using Domain.Contracts;
 using Domain.Models;
 using ServiceAbstraction;
+using ServiceImplemntation.Specifications;
+using Shared;
 using Shared.Dtos;
 using System;
 using System.Collections.Generic;
@@ -34,16 +36,27 @@ namespace ServiceImplemntation
         public async Task<ProductDto?> GetProductByIdAsync(int id)
         {
             var repo = _unitOfWork.GetRepostiry<Product, int>();
-            var product = await repo.GetByIdAsync(id);
+            var specification = new ProductWithBrandAndTypeSpecificaations(id);
+            var product = await repo.GetByIdAsync(specification);
             if (product == null) return null;
             return _mapper.Map<Product, ProductDto>(product);
         }
 
-        public async Task<IEnumerable<ProductDto>> GettAllProductsAsync()
+        public async Task<PaginatedResult<ProductDto>> GettAllProductsAsync(ProductQueryPrams queryPrams)
         {
             var repo = _unitOfWork.GetRepostiry<Product, int>();
-            var products = await repo.GetAllAsync();
-            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDto>>(products);
+            var specification = new ProductWithBrandAndTypeSpecificaations(queryPrams);
+            var products = await repo.GetAllAsync(specification);
+
+            var productsDto = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDto>>(products);
+
+            var productCount= productsDto.Count();
+            var CountSpec= new ProductCountSpecfications(queryPrams);
+            var totalCount = await repo.CountAsync(CountSpec);
+            return new PaginatedResult<ProductDto>(productCount,queryPrams.PageIndex ,0, productsDto)
+            {
+                 
+            };
 
         }
     }

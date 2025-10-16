@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>   
+    <ProjectReference Include="..\..\Core\Domain\Domain.csproj" />   
     <ProjectReference Include="..\..\Core\ServiceAbstraction\ServiceAbstraction.csproj" />
   </ItemGroup>
   <ItemGroup> 
-	  <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+	  <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.20" />
   </ItemGroup>
 </Project>
