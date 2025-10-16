@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ServiceAbstraction;
+using Shared;
 using Shared.Dtos;
 
 namespace Presentaion.Controllers
@@ -15,10 +16,14 @@ namespace Presentaion.Controllers
     public class ProductController(IServiceManger _serviceManger):ControllerBase
     {
         // Get All Products
+        // NameAsc
+        // NameDesc
+        // PriceAsc
+        // PriceDesc
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts()
+        public async Task<ActionResult<PaginatedResult<ProductDto>>> GetAllProducts([FromQuery]ProductQueryPrams queryPrams)
         {
-            var products =await _serviceManger.ProductService.GettAllProductsAsync();
+            var products =await _serviceManger.ProductService.GettAllProductsAsync(queryPrams);
             return Ok(products);
         }
 

@@ -17,6 +17,12 @@ namespace Domain.Contracts
 
         void Remove(TEntity entity);
 
+        Task<IEnumerable<TEntity>> GetAllAsync(ISpecificstion<TEntity,TKey> specificstion);
+
+        Task<TEntity?> GetByIdAsync(ISpecificstion<TEntity,TKey> specificstion);
+
+        Task<int> CountAsync(ISpecificstion<TEntity, TKey> specificstion);
+
 
     }
 }
