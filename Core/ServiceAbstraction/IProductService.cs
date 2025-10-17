@@ -14,7 +14,7 @@ namespace ServiceAbstraction
         Task<PaginatedResult<ProductDto>> GettAllProductsAsync(ProductQueryPrams queryPrams);
 
         // Get Product By Id
-        Task<ProductDto?> GetProductByIdAsync(int id);
+        Task<ProductDto> GetProductByIdAsync(int id);
 
         // Get All Brands
         Task<IEnumerable<BrandDto>> GetAllBrandsAsync();

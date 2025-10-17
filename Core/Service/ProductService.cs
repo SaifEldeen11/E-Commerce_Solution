@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Contracts;
+using Domain.Exeptions;
 using Domain.Models;
 using ServiceAbstraction;
 using ServiceImplemntation.Specifications;
@@ -33,12 +34,12 @@ namespace ServiceImplemntation
 
         }
 
-        public async Task<ProductDto?> GetProductByIdAsync(int id)
+        public async Task<ProductDto> GetProductByIdAsync(int id)
         {
             var repo = _unitOfWork.GetRepostiry<Product, int>();
             var specification = new ProductWithBrandAndTypeSpecificaations(id);
             var product = await repo.GetByIdAsync(specification);
-            if (product == null) return null;
+            if (product == null) throw new ProductNotFoundExeption(id);
             return _mapper.Map<Product, ProductDto>(product);
         }
 
