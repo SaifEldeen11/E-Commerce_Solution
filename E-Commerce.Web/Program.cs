@@ -23,7 +23,7 @@ namespace E_Commerce.Web
     {
         public static async Task Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder();
 
             #region Services
             // Add services to the container.
