@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Models;
-using Shared.Dtos;
+using Domain.Models.ProductModule;
+using Shared.Dtos.ProductModule;
 using System;
 using System.Collections.Generic;
 using System.Linq;

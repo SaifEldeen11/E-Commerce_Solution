@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ServiceAbstraction;
 using Shared;
-using Shared.Dtos;
+using Shared.Dtos.ProductModule;
 
 namespace Presentaion.Controllers
 {

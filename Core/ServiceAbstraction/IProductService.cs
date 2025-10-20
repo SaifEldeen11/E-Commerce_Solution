@@ -1,5 +1,5 @@
 ﻿using Shared;
-using Shared.Dtos;
+using Shared.Dtos.ProductModule;
 using System;
 using System.Collections.Generic;
 using System.Linq;
