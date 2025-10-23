@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using StackExchange.Redis;
 using Presistence.Identity;
+using Domain.Models.IdentityModule;
+using Microsoft.AspNetCore.Identity;
 
 namespace Presistence
 {
@@ -36,7 +38,9 @@ namespace Presistence
             {
                 options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection"));
             });
-
+            Services.AddIdentityCore<ApplicationUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<StoreIdentityDbContext>();
             return Services;
         }
     }

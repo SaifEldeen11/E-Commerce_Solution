@@ -1,5 +1,6 @@
 ﻿using Domain.Contracts;
 using E_Commerce.Web.CustomMiddleWare;
+using System.Threading.Tasks;
 
 namespace E_Commerce.Web.Extentions
 {
@@ -11,6 +12,7 @@ namespace E_Commerce.Web.Extentions
             var seed = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
 
              await seed.DataSeedAsync();
+            await seed.IdentityDataSeedAsync();
         }
 
         public static IApplicationBuilder UseCustomExceptionMiddleWares(this IApplicationBuilder app)
