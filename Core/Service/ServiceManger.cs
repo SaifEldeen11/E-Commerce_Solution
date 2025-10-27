@@ -1,4 +1,4 @@
-﻿ using AutoMapper;
+﻿using AutoMapper;
 using Domain.Contracts;
 using Domain.Models.IdentityModule;
 using Microsoft.AspNetCore.Identity;
@@ -17,11 +17,14 @@ namespace ServiceImplemntation
 
         private readonly Lazy<IProductService> _LazyProductService = new Lazy<IProductService>(()=> new ProductService(_unitOfWork,_mapper));
         private readonly Lazy<IBasketService> _basketService = new Lazy<IBasketService>(() => new BasketService(_basketRepostiry, _mapper));
-        private readonly Lazy<IAuthenticationServices> _authenticationServices = new Lazy<IAuthenticationServices>(() => new AuthenticationService(_userManager, _configuration));
+        private readonly Lazy<IAuthenticationServices> _authenticationServices = new Lazy<IAuthenticationServices>(() => new AuthenticationService(_userManager, _configuration,_mapper));
+        private readonly Lazy<IOrderService> _LazyOrderService = new Lazy<IOrderService>(() => new OrderService(_mapper, _basketRepostiry, _unitOfWork));
         public IProductService ProductService => _LazyProductService.Value;
 
         public IBasketService BasketService => _basketService.Value;
 
         public IAuthenticationServices AuthenticationServices => _authenticationServices.Value;
+
+        public IOrderService OrderService => _LazyOrderService.Value;
     }
 }

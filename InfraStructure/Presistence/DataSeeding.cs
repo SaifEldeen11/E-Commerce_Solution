@@ -1,6 +1,7 @@
 ﻿using Domain.Contracts;
 using Domain.Models;
 using Domain.Models.IdentityModule;
+using Domain.Models.OrderModule;
 using Domain.Models.ProductModule;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -65,6 +66,16 @@ namespace Presistence
                        await _dbContext.Products.AddRangeAsync(Products);
                     }
                 }
+                if (!_dbContext.Set<DeliveryMethod>().Any())
+                {
+                    var DeliveryMethodsData = File.OpenRead("C:\\Users\\merom\\Desktop\\RouteBackEnd\\API\\E-Commerce_Solution\\InfraStructure\\Presistence\\Data\\DataSeeding\\delivery.json");
+                    var deliveryMethods =  await JsonSerializer.DeserializeAsync<List<DeliveryMethod>>(DeliveryMethodsData);
+
+                    if (deliveryMethods is not null && deliveryMethods.Any())
+                    {
+                       await _dbContext.Set<DeliveryMethod>().AddRangeAsync(deliveryMethods);
+                    }
+                }
 
                 await _dbContext.SaveChangesAsync();
             }
@@ -113,5 +124,7 @@ namespace Presistence
                // To do 
             }
         }
+
+
     }
 }
